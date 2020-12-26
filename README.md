@@ -14,20 +14,73 @@ The best place to start with Serenity and Cucumber is to clone or download the j
 ### The project directory structure
 The project has build scripts for both Maven and Gradle, and follows the standard directory structure used in most Serenity projects:
 ```Gherkin
-src
-  + main
-  + test
-    + java                        Test runners and supporting code
-    + resources
-      + features                  Feature files
-          + search                  Feature file subdirectories 
-             search_by_keyword.feature 
-       + webdriver                 Bundled webdriver binaries
-         + linux
-         + mac
-         + windows 
-           chromedriver.exe       OS-specific Webdriver binaries 
-           geckodriver.exe
+.
+├── README.md
+├── azure-pipelines.yml
+├── build
+│   ├── classes
+│   │   └── java
+│   │       └── test
+│   ├── generated
+│   │   └── sources
+│   │       ├── annotationProcessor
+│   │       │   └── java
+│   │       │       └── test
+│   │       └── headers
+│   │           └── java
+│   │               └── test
+│   ├── libs
+│   │   └── jobs-board-test-automation.jar
+│   ├── resources
+│   │   └── test
+│   │       ├── features
+│   │       │   └── addJob.feature
+│   │       ├── logback-test.xml
+│   │       └── serenity.conf
+│   └── tmp
+│       ├── compileTestJava
+│       │   └── source-classes-mapping.txt
+│       └── jar
+│           └── MANIFEST.MF
+├── build.gradle
+├── gradle
+│   └── wrapper
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+├── gradlew
+├── gradlew.bat
+├── hiptest-publisher.conf
+├── jobs-board-test-automation.iml
+├── pom.xml
+├── serenity.properties
+├── serenity.sh
+├── src
+│   ├── main
+│   │   └── assembly
+│   │       └── zip.xml
+│   └── test
+│       ├── java
+│       │   └── demo
+│       │       ├── CucumberTestSuite.java
+│       │       ├── pageobjects
+│       │       │   ├── AddJobPage.java
+│       │       │   └── NavigationPage.java
+│       │       ├── stepdefinitions
+│       │       │   └── AddJobStepDefinitions.java
+│       │       └── tasks
+│       │           └── Add.java
+│       └── resources
+│           ├── features
+│           │   └── addJob.feature
+│           ├── logback-test.xml
+│           └── serenity.conf
+└── templates
+    └── gherkin
+        ├── _scenario.hbs
+        ├── _scenario_outline_title.hbs
+        └── dataset.hbs
+
+
 ```
 
 This project assumes that you have the latest version of Chrome (83) installed.
@@ -36,35 +89,35 @@ This project assumes that you have the latest version of Chrome (83) installed.
 Both variations of the sample project uses the sample Cucumber scenario. In this scenario, Sergey (who likes to search for stuff) is performing a search on the DuckDuckGo search engine:
 
 ```Gherkin
-Feature: Search by keyword
-
-  Scenario: Searching for a term
-    Given Sergey is on the DuckDuckGo home page
-    When he searches for "cucumber"
-    Then all the result titles should contain the word "cucumber"
+ Scenario Outline: add new job
+    In order to add new job
+    As a job seeker James
+    James want to add new job
+    When James add a new job with name "<name>" duration "<duration>" and "<date>"
+    Then he is able to see the new job added
 ```
 
 
 The glue code for this scenario looks this this:
 
 ```java
-    @Given("^(?:.*) is on the DuckDuckGo home page")	 
-    public void i_am_on_the_DuckDuckGo_home_page() {
-        navigateTo.theDuckDuckGoHomePage();
-    }
-
-    @When("s?he searches for \"(.*)\"")				
-    public void i_search_for(String term) {
-        searchFor.term(term);
-    }
-
-    @Then("all the result titles should contain the word \"(.*)\"")
-    public void all_the_result_titles_should_contain_the_word(String term) {
-        assertThat(searchResult.titles())
-                .matches(results -> results.size() > 0)
-                .allMatch(title ->  
-                         textOf(title).containsIgnoringCase(term));
-    }
+      @Given("^(?:.*) is at the job board$")
+        public void jamesIsAtTheJobBoard() {
+            theActorCalled("james").attemptsTo(Open.browserOn().the(navigationPage));
+        }
+        
+        @When("^(?:.*) add a new job with name \"([^\"]*)\" duration \"([^\"]*)\" and \"([^\"]*)\"")
+        public void jamesAddANewJobWithNameDurationAnd(String name, String duration, String date) {
+            theActorInTheSpotlight().attemptsTo(Click.on(NavigationPage.ADD_JOB));
+    //        theActorInTheSpotlight().attemptsTo(Add.selectJobDuration(duration));
+    //        theActorInTheSpotlight().attemptsTo(Add.jobDate(date));
+    
+        }
+        
+        @Then("^he is able to see the new job added$")
+        public void heIsAbleToSeeTheNewJobAdded() {
+           
+        }
 ```
 
 ### Lean Page Objects and Action Classes
@@ -73,13 +126,7 @@ The glue code shown above uses Serenity step libraries as _action classes_ to ma
 These classes are declared using the Serenity `@Steps` annotation, shown below:
 ```java
     @Steps
-    NavigateTo navigateTo;
-
-    @Steps
-    SearchFor searchFor;
-
-    @Steps
-    SearchResult searchResult;
+    NavigationPage navigationPage;
 ```
 
 The `@Steps`annotation tells Serenity to create a new instance of the class, and inject any other steps or page objects that this instance might need. 
@@ -101,8 +148,15 @@ public class NavigateTo {
 
 It does this using a standard Serenity Page Object. Page Objects are often very minimal, storing just the URL of the page itself:
 ```java
-@DefaultUrl("https://duckduckgo.com")
-class DuckDuckGoHomePage extends PageObject {}
+@DefaultUrl("https://brave-glacier-056a08800.azurestaticapps.net/")
+public class NavigationPage extends PageObject {
+    public static final Target LIST_OF_JOBS = Target.the("list of jobs").
+            locatedBy("css:a[data-qa='listOfJobs']");
+
+    public static final Target ADD_JOB = Target.the("add job").
+            locatedBy("css:a[data-qa='addJob']");
+
+}
 ```
 
 The second class, `SearchFor`, is an interaction class. It needs to interact with the web page, and to enable this, we make the class extend the Serenity `UIInteractionSteps`. This gives the class full access to the powerful Serenity WebDriver API, including the `$()` method used below, which locates a web element using a `By` locator or an XPath or CSS expression:
@@ -147,7 +201,7 @@ class SearchResultList {
 
 The main advantage of the approach used in this example is not in the lines of code written, although Serenity does reduce a lot of the boilerplate code that you would normally need to write in a web test. The real advantage is in the use of many small, stable classes, each of which focuses on a single job. This application of the _Single Responsibility Principle_ goes a long way to making the test code more stable, easier to understand, and easier to maintain.
 
-## The Screenplay gomo project
+## The Screenplay project
 If you prefer to use the Screenplay pattern, or want to try it out, check out the _screenplay_ branch instead of the _master_ branch. In this version of the gomo project, the same scenario is implemented using the Screenplay pattern. 
 
 The Screenplay pattern describes tests in terms of actors and the tasks they perform. Tasks are represented as objects performed by an actor, rather than methods. This makes them more flexible and composable, at the cost of being a bit more wordy. Here is an example:
@@ -293,10 +347,3 @@ You use the `environment` system property to determine which environment to run 
 $ mvn clean verify -Denvironment=staging
 ```
 
-See [**this article**](https://johnfergusonsmart.com/environment-specific-configuration-in-serenity-bdd/) for more details about this feature.
-
-## Want to learn more?
-For more information about Serenity BDD, you can read the [**Serenity BDD Book**](https://serenity-bdd.github.io/theserenitybook/latest/index.html), the official online Serenity documentation source. Other sources include:
-* **[Byte-sized Serenity BDD](https://www.youtube.com/channel/UCav6-dPEUiLbnu-rgpy7_bw/featured)** - tips and tricks about Serenity BDD
-* [**Serenity BDD Blog**](https://johnfergusonsmart.com/category/serenity-bdd/) - regular articles about Serenity BDD
-* [**The Serenity BDD Dojo**](https://serenitydojo.teachable.com) - Online training on Serenity BDD and on test automation and BDD in general. 
