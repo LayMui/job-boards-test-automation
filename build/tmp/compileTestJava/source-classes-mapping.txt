@@ -1,0 +1,10 @@
+demo/pageobjects/AddJobPage.java
+ demo.pageobjects.AddJobPage
+demo/tasks/Add.java
+ demo.tasks.Add
+demo/stepdefinitions/AddJobStepDefinitions.java
+ demo.stepdefinitions.AddJobStepDefinitions
+demo/pageobjects/NavigationPage.java
+ demo.pageobjects.NavigationPage
+demo/CucumberTestSuite.java
+ demo.CucumberTestSuite

@@ -1,0 +1,5 @@
+demo/pageobjects/AddJobPage.class
+demo/pageobjects/NavigationPage.class
+demo/tasks/Add.class
+demo/CucumberTestSuite.class
+demo/stepdefinitions/AddJobStepDefinitions.class
