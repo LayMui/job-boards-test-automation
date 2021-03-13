@@ -17,17 +17,11 @@ public class Add {
                 .of(name);
     }
 
-    public static Performable selectJobDuration(String duration) {
-        return Task.where(
-                "{0} attempts to select duration #duration",
-                Click.on(AddJobPage.JOB_DURATION),
-                Click.on(AddJobPage.SELECT_DURATION_DROPDOWN(duration)));
-    }
-
     public static Performable jobDate(String date) {
         return Task.where(
                 "{0} attempts to enter job date #date",
-                Click.on(AddJobPage.JOB_DATE));
+                Click.on(AddJobPage.JOB_DATE),
+                Enter.theValue(date).into(AddJobPage.JOB_DATE));
 
     }
 
