@@ -119,11 +119,11 @@
         </dependency>
 
 
-<!--        <dependency>-->
-<!--            <groupId>com.applitools</groupId>-->
-<!--            <artifactId>eyes-selenium-java3</artifactId>-->
-<!--            <version>3.181.0</version>-->
-<!--        </dependency>-->
+       <dependency>
+           <groupId>com.applitools</groupId>
+           <artifactId>eyes-selenium-java3</artifactId>
+           <version>3.181.0</version>
+      </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
