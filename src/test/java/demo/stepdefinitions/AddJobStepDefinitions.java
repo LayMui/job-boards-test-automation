@@ -59,16 +59,18 @@ public class AddJobStepDefinitions {
         // https://applitools.com/docs/api/eyes-sdk/classes-gen/class_eyes/method-eyes-setapikey-selenium-java.html
         // set new batch
         config.setBatch(new BatchInfo("Jobs batch"));
-       // Add browsers with different viewports
-        config.addBrowser(800, 600, BrowserType.CHROME);
-        config.addBrowser(700, 500, BrowserType.FIREFOX);
+       // // Add browsers with different viewports
+       
+       // config.addBrowser(800, 600, BrowserType.CHROME);
+        // config.addBrowser(700, 500, BrowserType.FIREFOX);
         config.addBrowser(1600, 1200, BrowserType.IE_11);
-        config.addBrowser(1024, 768, BrowserType.EDGE_CHROMIUM);
-        config.addBrowser(800, 600, BrowserType.SAFARI);
-        // Add mobile emulation devices in Portrait mode
-        config.addDeviceEmulation(DeviceName.iPhone_X, ScreenOrientation.PORTRAIT);
-        config.addDeviceEmulation(DeviceName.Pixel_2, ScreenOrientation.PORTRAIT);
-        // set the configuration to eyes
+        // config.addBrowser(1024, 768, BrowserType.EDGE_CHROMIUM);
+        // config.addBrowser(800, 600, BrowserType.SAFARI);
+        // // Add mobile emulation devices in Portrait mode
+        // config.addDeviceEmulation(DeviceName.iPhone_X, ScreenOrientation.PORTRAIT);
+        // config.addDeviceEmulation(DeviceName.Pixel_2, ScreenOrientation.PORTRAIT);
+        
+        // // set the configuration to eyes
         eyes.setConfiguration(config);
       }
 
@@ -94,7 +96,7 @@ public class AddJobStepDefinitions {
             // Get test results from Eyes
             TestResultsSummary myTestResults = runner.getAllTestResults(false);
             // Push test results into Serenity report
-            Serenity.recordReportData().withTitle("Applitools Report").andContents(myTestResults.toString());
+             Serenity.recordReportData().withTitle("Applitools Report").andContents(myTestResults.toString());
         }
         OnStage.drawTheCurtain();
     }
