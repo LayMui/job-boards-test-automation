@@ -194,5 +194,4 @@ You use the `environment` system property to determine which environment to run 
 $ mvn clean verify -Denvironment=staging
 ```
 
-refer to [serenityBDD-cucumber-starter] (https://github.com/serenity-bdd/serenity-cucumber-starter)
-
+- [serenityBDD-cucumber-starter](https://github.com/serenity-bdd/serenity-cucumber-starter)  
