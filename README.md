@@ -194,4 +194,8 @@ You use the `environment` system property to determine which environment to run 
 $ mvn clean verify -Denvironment=staging
 ```
 
-- [serenityBDD-cucumber-starter](https://github.com/serenity-bdd/serenity-cucumber-starter)  
+- [serenityBDD-cucumber-starter](https://github.com/serenity-bdd/serenity-cucumber-starter) 
+
+![Link an image](https://docs.microsoft.com/learn/azure-devops/shared/media/mara.png)
+
+[Link to Microsoft Learn MarkDown](https://docs.microsoft.com/en-gb/learn/modules/communicate-using-markdown/2-what-is-markdown)
