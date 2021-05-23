@@ -11,12 +11,12 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <serenity.version>2.2.9</serenity.version>
-        <serenity.maven.version>2.2.9</serenity.maven.version>
-        <serenity.cucumber.version>2.2.5</serenity.cucumber.version>
+        <serenity.version>2.3.11</serenity.version>
+        <serenity.maven.version>2.4.1</serenity.maven.version>
+        <serenity.cucumber.version>2.3.2</serenity.cucumber.version>
         <encoding>UTF-8</encoding>
         <tags></tags>
-        <parallel.tests>4</parallel.tests>
+        <parallel.tests>1</parallel.tests>
         <webdriver.base.url></webdriver.base.url>
         <browserstack.local.version>1.0.3</browserstack.local.version>
         <maven.failsafe-plugin.version>3.0.0-M3</maven.failsafe-plugin.version>
@@ -94,7 +94,7 @@
         </dependency>
         <dependency>
             <groupId>net.serenity-bdd</groupId>
-            <artifactId>serenity-cucumber5</artifactId>
+            <artifactId>serenity-cucumber6</artifactId>
             <version>${serenity.cucumber.version}</version>
             <scope>test</scope>
         </dependency>
@@ -124,12 +124,12 @@
            <artifactId>eyes-selenium-java3</artifactId>
            <version>3.181.0</version>
       </dependency>
-        <dependency>
+        <!-- <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
             <version>6.1.1</version>
             <scope>test</scope>
-        </dependency>
+        </dependency> -->
     </dependencies>
     <build>
         <plugins>
@@ -202,7 +202,7 @@
             </plugin>
         </plugins>
     </build>
-    <profiles>
+    <!-- <profiles>
         <profile>
             <id>single</id>
             <build>
@@ -272,5 +272,5 @@
                 </plugins>
             </build>
         </profile>
-    </profiles>
+    </profiles> -->
 </project>

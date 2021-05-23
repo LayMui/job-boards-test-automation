@@ -47,8 +47,8 @@ public class AddJobStepDefinitions {
     NavigationPage navigationPage;
 
 
-    VisualGridRunner runner;
-    Eyes eyes;
+    // VisualGridRunner runner;
+    // Eyes eyes;
 
     private static void setUp(Eyes eyes) {
         // Initialize the eyes configuration.
@@ -58,55 +58,56 @@ public class AddJobStepDefinitions {
         // You can get your api key from the Applitools dashboard
         // https://applitools.com/docs/api/eyes-sdk/classes-gen/class_eyes/method-eyes-setapikey-selenium-java.html
         // set new batch
-        config.setBatch(new BatchInfo("Jobs batch"));
+        
        // Add browsers with different viewports
-        config.addBrowser(800, 600, BrowserType.CHROME);
-        config.addBrowser(700, 500, BrowserType.FIREFOX);
-        config.addBrowser(1600, 1200, BrowserType.IE_11);
-        config.addBrowser(1024, 768, BrowserType.EDGE_CHROMIUM);
-        config.addBrowser(800, 600, BrowserType.SAFARI);
-        // Add mobile emulation devices in Portrait mode
-        config.addDeviceEmulation(DeviceName.iPhone_X, ScreenOrientation.PORTRAIT);
-        config.addDeviceEmulation(DeviceName.Pixel_2, ScreenOrientation.PORTRAIT);
-        // set the configuration to eyes
-        eyes.setConfiguration(config);
+        // config.setBatch(new BatchInfo("Jobs batch"));
+        // config.addBrowser(800, 600, BrowserType.CHROME);
+        // config.addBrowser(700, 500, BrowserType.FIREFOX);
+        // config.addBrowser(1600, 1200, BrowserType.IE_11);
+        // config.addBrowser(1024, 768, BrowserType.EDGE_CHROMIUM);
+        // config.addBrowser(800, 600, BrowserType.SAFARI);
+        // // Add mobile emulation devices in Portrait mode
+        // config.addDeviceEmulation(DeviceName.iPhone_X, ScreenOrientation.PORTRAIT);
+        // config.addDeviceEmulation(DeviceName.Pixel_2, ScreenOrientation.PORTRAIT);
+        // // set the configuration to eyes
+        // eyes.setConfiguration(config);
       }
 
     @Before()
     public void setTheStage() {
 
-    if (System.getenv("APPLITOOLS_API_KEY") != null) {
-        runner = new VisualGridRunner(1);
-        // Initialize the eyes SDK
-        eyes = new Eyes(runner);
-        setUp(eyes);
-        //eyes.setLogHandler(new StdoutLogHandler(true));
-        eyes.setLogHandler(new FileLogger("file.log", true, true));
-   }
+//     if (System.getenv("APPLITOOLS_API_KEY") != null) {
+//         runner = new VisualGridRunner(1);
+//         // Initialize the eyes SDK
+//         eyes = new Eyes(runner);
+//         setUp(eyes);
+//         //eyes.setLogHandler(new StdoutLogHandler(true));
+//         eyes.setLogHandler(new FileLogger("file.log", true, true));
+//    }
 
         OnStage.setTheStage(new OnlineCast());
     }
 
     @After()
     public void drawTheCurtain() {
-        if (System.getenv("APPLITOOLS_API_KEY") != null) {
-            eyes.closeAsync();
-            // Get test results from Eyes
-            TestResultsSummary myTestResults = runner.getAllTestResults(false);
-            // Push test results into Serenity report
-            Serenity.recordReportData().withTitle("Applitools Report").andContents(myTestResults.toString());
-        }
+        // if (System.getenv("APPLITOOLS_API_KEY") != null) {
+        //     eyes.closeAsync();
+        //     // Get test results from Eyes
+        //     TestResultsSummary myTestResults = runner.getAllTestResults(false);
+        //     // Push test results into Serenity report
+        //     Serenity.recordReportData().withTitle("Applitools Report").andContents(myTestResults.toString());
+        // }
         OnStage.drawTheCurtain();
     }
 
     @Given("^(?:.*) is at the job board$")
     public void jamesIsAtTheJobBoard() {
         theActorCalled("james").attemptsTo(Open.browserOn().the(navigationPage));
-        if (System.getenv("APPLITOOLS_API_KEY") != null) {
-            eyes.open(((WebDriverFacade) navigationPage.getDriver()).getProxiedDriver(),
-             "Jobs", "Jobs Ultra Grid");
-            eyes.check(Target.window().fully().withName("JobListing Page"));
-        }
+        // if (System.getenv("APPLITOOLS_API_KEY") != null) {
+        //     eyes.open(((WebDriverFacade) navigationPage.getDriver()).getProxiedDriver(),
+        //      "Jobs", "Jobs Ultra Grid");
+        //     eyes.check(Target.window().fully().withName("JobListing Page"));
+        // }
     }
     
     @When("^(?:.*) add a new job with name \"([^\"]*)\" duration \"([^\"]*)\" and \"([^\"]*)\"")
@@ -127,8 +128,8 @@ public class AddJobStepDefinitions {
     
     @Then("^he is able to see the new job added$")
     public void heIsAbleToSeeTheNewJobAdded() {
-        if (System.getenv("APPLITOOLS_API_KEY") != null)
-            eyes.check(Target.window().fully().withName("Add job page"));
+        // if (System.getenv("APPLITOOLS_API_KEY") != null)
+        //     eyes.check(Target.window().fully().withName("Add job page"));
  
     }
 }
