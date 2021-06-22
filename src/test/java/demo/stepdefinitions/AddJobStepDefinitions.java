@@ -51,6 +51,7 @@ public class AddJobStepDefinitions {
     VisualGridRunner runner;
     Eyes eyes;
 
+
     ApplitoolsEyes applitoolsEyes;
 
     @Before()
