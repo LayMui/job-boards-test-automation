@@ -1,14 +1,8 @@
 package demo.stepdefinitions;
 
-import com.applitools.eyes.BatchInfo;
-import com.applitools.eyes.FileLogger;
 import com.applitools.eyes.TestResultsSummary;
-import com.applitools.eyes.selenium.BrowserType;
-import com.applitools.eyes.selenium.Configuration;
 import com.applitools.eyes.selenium.Eyes;
 import com.applitools.eyes.selenium.fluent.Target;
-import com.applitools.eyes.visualgrid.model.DeviceName;
-import com.applitools.eyes.visualgrid.model.ScreenOrientation;
 import com.applitools.eyes.visualgrid.services.VisualGridRunner;
 import demo.util.ApplitoolsEyes;
 import net.thucydides.core.webdriver.WebDriverFacade;
@@ -35,8 +29,12 @@ import org.slf4j.LoggerFactory;
 import static net.serenitybdd.screenplay.actors.OnStage.theActorCalled;
 import static net.serenitybdd.screenplay.actors.OnStage.theActorInTheSpotlight;
 
+
 public class AddJobStepDefinitions {
 
+
+    VisualGridRunner runner;
+    Eyes eyes;
     private final Logger log = LoggerFactory.getLogger(AddJobStepDefinitions.class);
 
 /*
@@ -47,32 +45,27 @@ public class AddJobStepDefinitions {
     @Steps
     NavigationPage navigationPage;
 
-
-    VisualGridRunner runner;
-    Eyes eyes;
-
-
+    @Steps
     ApplitoolsEyes applitoolsEyes;
 
     @Before()
     public void setTheStage() {
-
-        applitoolsEyes.openEyesAndCheck(eyes,"Jobs", "Jobs Ultra Grid",
-           "Jobs Page");
         OnStage.setTheStage(new OnlineCast());
+        applitoolsEyes.openEyesAndCheck("Jobs", "Jobs Ultra Grid",
+        "Jobs Page");
     }
 
     @After()
     public void drawTheCurtain() {
         OnStage.drawTheCurtain();
-        applitoolsEyes.getTestResultFromApplitools(runner, eyes);
+        applitoolsEyes.getTestResultFromApplitools();
     }
 
     @Given("^(?:.*) is at the job board$")
     public void jamesIsAtTheJobBoard() {
         theActorCalled("james").attemptsTo(Open.browserOn().the(navigationPage));
 
-        applitoolsEyes.openEyesAndCheck(eyes,"Job", "Job Ultra Grid",
+        applitoolsEyes.openEyesAndCheck("Job", "Job Ultra Grid",
                "Job Listing Page");
     }
     
@@ -92,6 +85,7 @@ public class AddJobStepDefinitions {
     
     @Then("^he is able to see the new job added$")
     public void heIsAbleToSeeTheNewJobAdded() {
-        applitoolsEyes.eyesCheckPoint(eyes, "Add job page");
+        applitoolsEyes.eyesCheckPoint("Add job page");
+    
     }
 }

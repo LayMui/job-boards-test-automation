@@ -1,6 +1,8 @@
 package demo.util;
 
+
 import com.applitools.eyes.BatchInfo;
+import com.applitools.eyes.FileLogger;
 import com.applitools.eyes.TestResultsSummary;
 import com.applitools.eyes.selenium.BrowserType;
 import com.applitools.eyes.selenium.Configuration;
@@ -18,7 +20,10 @@ import net.thucydides.core.webdriver.WebDriverFacade;
 import org.openqa.selenium.WebDriver;
 
 public class ApplitoolsEyes {
+     VisualGridRunner runner;
+     Eyes eyes;
 
+    
     @Steps
     NavigationPage navigationPage;
 
@@ -45,7 +50,7 @@ public class ApplitoolsEyes {
         eyes.setConfiguration(config);
     }
 
-    public void getTestResultFromApplitools(VisualGridRunner runner, Eyes eyes) {
+    public void getTestResultFromApplitools() {
         if (System.getenv("APPLITOOLS_API_KEY") != null) {
             eyes.closeAsync();
             // Get test results from Eyes
@@ -55,8 +60,11 @@ public class ApplitoolsEyes {
         }
     }
 
-    public void openEyesAndCheck(Eyes eyes, String appName, String testName, String pageName) {
+    public void openEyesAndCheck(String appName, String testName, String pageName) {
         if (System.getenv("APPLITOOLS_API_KEY") != null) {
+            runner = new VisualGridRunner(1);
+            eyes = new Eyes(runner);
+            setUp(eyes);
             eyes.open(((WebDriverFacade) navigationPage.getDriver()).getProxiedDriver(),
                     appName, testName);
             eyes.check(Target.window().fully().withName(pageName));
@@ -64,7 +72,7 @@ public class ApplitoolsEyes {
         }
     }
 
-    public void eyesCheckPoint(Eyes eyes, String pageName) {
+    public void eyesCheckPoint(String pageName) {
         if (System.getenv("APPLITOOLS_API_KEY") != null) {
             eyes.check(Target.window().fully().withName(pageName));
             eyes.closeAsync();
