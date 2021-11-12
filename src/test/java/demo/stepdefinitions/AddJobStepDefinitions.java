@@ -45,47 +45,46 @@ public class AddJobStepDefinitions {
     @Steps
     NavigationPage navigationPage;
 
-    @Steps
-    ApplitoolsEyes applitoolsEyes;
+    // @Steps
+    // ApplitoolsEyes applitoolsEyes;
 
     @Before()
     public void setTheStage() {
         OnStage.setTheStage(new OnlineCast());
-        applitoolsEyes.openEyesAndCheck("Jobs", "Jobs Ultra Grid",
-        "Jobs Page");
+        // applitoolsEyes.openEyesAndCheck("Jobs", "Jobs Ultra Grid",
+        // "Jobs Page");
     }
 
     @After()
     public void drawTheCurtain() {
         OnStage.drawTheCurtain();
-        applitoolsEyes.getTestResultFromApplitools();
+        // applitoolsEyes.getTestResultFromApplitools();
     }
 
     @Given("^(?:.*) is at the job board$")
     public void jamesIsAtTheJobBoard() {
         theActorCalled("james").attemptsTo(Open.browserOn().the(navigationPage));
 
-        applitoolsEyes.openEyesAndCheck("Job", "Job Ultra Grid",
-               "Job Listing Page");
+        // applitoolsEyes.openEyesAndCheck("Job", "Job Ultra Grid",
+        //        "Job Listing Page");
     }
     
     @When("^(?:.*) add a new job with name \"([^\"]*)\" duration \"([^\"]*)\" and \"([^\"]*)\"")
     public void jamesAddANewJobWithNameDurationAnd(String name, String duration, String date) {
-         theActorInTheSpotlight().attemptsTo(Click.on(NavigationPage.ADD_JOB));
-         theActorInTheSpotlight().attemptsTo(Add.jobName(name));
-         theActorInTheSpotlight().attemptsTo
-         (SelectFromOptions.byVisibleText(duration).from(AddJobPage.JOB_DURATION));
-         theActorInTheSpotlight().attemptsTo(Add.jobDate(date));
+         theActorInTheSpotlight().attemptsTo(Add.jobName(name),SelectFromOptions.byVisibleText(duration).from(AddJobPage.JOB_DURATION),Add.jobDate(date));
+         //theActorInTheSpotlight().attemptsTo(Click.on(NavigationPage.ADD_JOB));
+         //theActorInTheSpotlight().attemptsTo(SelectFromOptions.byVisibleText(duration).from(AddJobPage.JOB_DURATION));
+         //theActorInTheSpotlight().attemptsTo(Add.jobDate(date));
 
         //  theActorInTheSpotlight()
         //  .should(eventually(seeThat(the(AddJobPage.SUBMIT), isClickable())));
-         theActorInTheSpotlight().attemptsTo(Click.on(AddJobPage.SUBMIT));
+        // theActorInTheSpotlight().attemptsTo(Click.on(AddJobPage.SUBMIT));
 
     }
     
     @Then("^he is able to see the new job added$")
     public void heIsAbleToSeeTheNewJobAdded() {
-        applitoolsEyes.eyesCheckPoint("Add job page");
+      //  applitoolsEyes.eyesCheckPoint("Add job page");
     
     }
 }

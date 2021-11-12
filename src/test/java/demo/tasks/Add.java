@@ -11,6 +11,7 @@ public class Add {
     public static Performable jobName(String name) {
         return Task.where(
                 "{0} attempts to enter job name #name",
+                Click.on(NavigationPage.ADD_JOB),
                 Clear.field(AddJobPage.JOB_NAME),
                 Enter.theValue(name).into(AddJobPage.JOB_NAME))
                 .with("name")
@@ -21,7 +22,8 @@ public class Add {
         return Task.where(
                 "{0} attempts to enter job date #date",
                 Click.on(AddJobPage.JOB_DATE),
-                Enter.theValue(date).into(AddJobPage.JOB_DATE));
+                Enter.theValue(date).into(AddJobPage.JOB_DATE),
+                Click.on(AddJobPage.SUBMIT));
 
     }
 
